@@ -1,6 +1,2 @@
 target/
 log
-src/.DS_Store
-src/test/.DS_Store
-src/test/java/.DS_Store
-src/test/java/com/.DS_Store
