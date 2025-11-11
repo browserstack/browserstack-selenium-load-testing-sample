@@ -41,5 +41,4 @@ framework: junit
 files: 
   dependencies:
     - ./pom.xml                 
-  testConfigs: 
-    - ./src/test/resources/testng.xml
+  testConfigs: []
