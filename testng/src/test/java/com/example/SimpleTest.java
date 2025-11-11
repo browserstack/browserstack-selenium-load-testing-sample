@@ -23,8 +23,7 @@ public class SimpleTest {
     public void setUp() throws Exception {
         try {
             System.out.println("Setting up Chrome options...");
-            
-            // Try a simpler approach first - just basic capabilities
+
             DesiredCapabilities caps = new DesiredCapabilities();
             caps.setBrowserName("chrome");
             
@@ -125,8 +124,8 @@ public class SimpleTest {
 
         // Checkout
         driver.findElement(By.id("checkout-shipping-continue")).click();
-        driver.findElement(By.xpath("//*[text()='Continue']")).click();
-        driver.findElement(By.xpath("//*[text()='Orders']")).click();
+        String checkoutMessage = driver.findElement(By.id("confirmation-message")).getText();
+        Assert.assertEquals(checkoutMessage, "Your Order has been successfully placed.");
 
         System.out.println("Test passed: Checkout flow works!");
     }
