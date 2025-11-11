@@ -40,6 +40,6 @@ language: java
 # Add list of file paths under 'testConfigs' to define which configuration files should be used to run tests. Example: path to 'playwright.config.ts' for Playwright (Node.js), path to 'testng.xml' for Selenium (TestNG). 
 files: 
   dependencies:
-   - ./pom.xml                 
+    - ./pom.xml                 
   testConfigs: 
-   - ./src/test/resources/testng.xml
+    - ./src/test/resources/testng.xml
