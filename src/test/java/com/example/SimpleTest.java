@@ -170,4 +170,3 @@ public class SimpleTest {
         }
     }
 }
-src/test/java/com/example/SimpleTest.java
