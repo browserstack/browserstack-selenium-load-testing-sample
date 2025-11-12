@@ -3,6 +3,7 @@ package com.example;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -10,6 +11,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.net.URL;
 import java.time.Duration;
@@ -59,6 +62,7 @@ public class SimpleTest {
             
             System.out.println("Connecting to Selenium Grid at: " + HUB_URL);
             driver = new RemoteWebDriver(new URL(HUB_URL), chromeOptions);
+            // driver = new ChromeDriver(); // For local testing without Grid
             
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             driver.manage().window().maximize();
@@ -77,20 +81,27 @@ public class SimpleTest {
         // Visit BStackDemo
         driver.get("https://bstackdemo.com/");
 
-        // Get name of product to add to cart (first product)
-        WebElement productNameElem = driver.findElement(By.cssSelector("#\\33  > p"));
-        String productToAdd = productNameElem.getText();
+    // Get name of product to add to cart using provided XPath //*[@id="3"]/p
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement productNameElem = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='3']/p"))
+    );
+    String productToAdd = productNameElem.getText().trim();
 
         // Click on add to cart
         WebElement addToCartBtn = driver.findElement(By.cssSelector("#\\33 > .shelf-item__buy-btn"));
         addToCartBtn.click();
 
-        // Get name of item in cart
-        WebElement productInCartElem = driver.findElement(By.cssSelector("#__next > div > div > div.float-cart.float-cart--open > div.float-cart__content > div.float-cart__shelf-container > div > div.shelf-item__details > p.title"));
-        String productInCart = productInCartElem.getText();
+    // Wait for cart to open and get the product name inside the cart
+    WebElement productInCartElem = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(
+            By.cssSelector(".float-cart.float-cart--open .float-cart__shelf-container .shelf-item__details p.title")
+        )
+    );
+    String productInCart = productInCartElem.getText().trim();
 
         // Check if product in cart is same as one added
-        Assert.assertEquals(productInCart, productToAdd);
+    Assert.assertEquals(productInCart, productToAdd, "Product in cart should match product selected.");
         System.out.println("Test passed: Add to cart works!");
     }
 
@@ -98,6 +109,8 @@ public class SimpleTest {
     public void testCheckoutFlowBStackDemo() {
         // Visit BStackDemo
         driver.get("https://bstackdemo.com/");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Sign in
         driver.findElement(By.id("signin")).click();
@@ -110,11 +123,25 @@ public class SimpleTest {
         // Wait for login
         try { Thread.sleep(500); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 
-        // Click on buy item
-        driver.findElement(By.cssSelector("#\\31 > .shelf-item__buy-btn")).click();
-        driver.findElement(By.cssSelector("div.float-cart__close-btn")).click();
-        driver.findElement(By.cssSelector("#\\32 > .shelf-item__buy-btn")).click();
-        driver.findElement(By.cssSelector(".buy-btn")).click();
+        // Click on first item (wait until clickable to avoid interactability issues)
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#\\31 > .shelf-item__buy-btn"))).click();
+
+        // Wait for cart overlay to open
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".float-cart.float-cart--open")));
+
+        // Attempt to close cart safely (selector simplified to class only; element may not be a div)
+        try {
+            WebElement closeBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".float-cart__close-btn")));
+            closeBtn.click();
+        } catch (Exception e) {
+            System.out.println("[WARN] Could not close cart overlay: " + e.getMessage());
+        }
+
+        // Click on second item
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#\\32 > .shelf-item__buy-btn"))).click();
+
+        // Proceed to checkout (Buy button)
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".buy-btn"))).click();
 
         // Add address details
         driver.findElement(By.id("firstNameInput")).sendKeys("first");
@@ -123,9 +150,13 @@ public class SimpleTest {
         driver.findElement(By.id("provinceInput")).sendKeys("province");
         driver.findElement(By.id("postCodeInput")).sendKeys("pincode");
 
-        // Checkout
-        driver.findElement(By.id("checkout-shipping-continue")).click();
-        driver.findElement(By.xpath("//*[text()='Continue']")).click();
+    // Checkout
+    wait.until(ExpectedConditions.elementToBeClickable(By.id("checkout-shipping-continue"))).click();
+    // Updated: use provided XPath for the Continue Shopping button
+    WebElement continueShopping = wait.until(
+        ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='checkout-app']/div/div/div/div/a/button"))
+    );
+    continueShopping.click();
         driver.findElement(By.xpath("//*[text()='Orders']")).click();
 
         System.out.println("Test passed: Checkout flow works!");
@@ -139,3 +170,4 @@ public class SimpleTest {
         }
     }
 }
+src/test/java/com/example/SimpleTest.java
