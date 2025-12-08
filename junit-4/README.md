@@ -11,22 +11,16 @@
    ```sh
    git clone https://github.com/browserstack/browserstack-selenium-load-testing-sample.git
    cd browserstack-selenium-load-testing-sample
+   cd junit-4
    ```
 
-2. **Choose the framework to run**
-
-   cd into the the respective framework folder, for instance to run the testng sample:
-   ```sh
-   cd testng
-   ```
-
-3. **Install Maven dependencies**
+2. **Install Maven dependencies**
 
    ```sh
    mvn compile
    ```
 
-4. **Install BrowserStack CLI**
+3. **Install BrowserStack CLI**
 
    Download the appropriate BrowserStack CLI binary based on your operating system:
 
@@ -47,13 +41,13 @@
 
    > Place the downloaded `browserstack-cli` binary in the root of your project.
 
-5. **Run tests using BrowserStack CLI**
+4. **Run tests using BrowserStack CLI**
 
    ```sh
    ./browserstack-cli load run
    ```
 
-6. **View Test Results**
+5. **View Test Results**
 
    Visit the [BrowserStack Load-Testing Dashboard](https://load.browserstack.com/projects) to monitor and analyze your test runs.
 

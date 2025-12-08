@@ -1,2 +1,4 @@
-target/
-log
+**/target/
+**/log
+**/browserstack-cli
+**/.DS_Store

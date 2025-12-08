@@ -33,13 +33,13 @@ regions:
 # Set language to the programming language used in your project. Example: 'java', 'nodejs'.
 language: java
 
-# Set framework to the test framework used in your Selenium project. Example: 'testng'.
-# framework: testng
+# Set framework to the test framework used in your Selenium project.
+framework: testng
 
 # Add list of file paths under 'dependencies' to help set up the test environment by installing required packages. Example: path to 'pom.xml' for Java projects using Maven, path to 'package.json' for Node.js projects.
 # Add list of file paths under 'testConfigs' to define which configuration files should be used to run tests. Example: path to 'playwright.config.ts' for Playwright (Node.js), path to 'testng.xml' for Selenium (TestNG). 
 files: 
   dependencies:
-   - ./pom.xml                 
+    - ./pom.xml                 
   testConfigs: 
-   - ./src/test/resources/testng.xml
+    - ./src/test/resources/testng.xml
