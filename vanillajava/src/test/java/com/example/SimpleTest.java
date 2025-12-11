@@ -16,19 +16,32 @@ public class SimpleTest {
   public static void main(String[] args) {
     SimpleTest test = new SimpleTest();
     
+    boolean allTestsPassed = true;
+    
+    System.out.println("Starting Add to Cart test...");
     try {
-      System.out.println("Starting Add to Cart test...");
       test.testAddToCartBStackDemo();
       System.out.println("Add to Cart test completed successfully!");
-      
-      System.out.println("\nStarting Checkout Flow test...");
+    } catch (Exception e) {
+      System.err.println("Add to Cart test failed: " + e.getMessage());
+      e.printStackTrace();
+      allTestsPassed = false;
+    }
+    
+    System.out.println("\nStarting Checkout Flow test...");
+    try {
       test.testCheckoutFlowBStackDemo();
       System.out.println("Checkout Flow test completed successfully!");
-      
-      System.out.println("\nAll tests passed!");
     } catch (Exception e) {
-      System.err.println("Test failed: " + e.getMessage());
+      System.err.println("Checkout Flow test failed: " + e.getMessage());
       e.printStackTrace();
+      allTestsPassed = false;
+    }
+    
+    if (allTestsPassed) {
+      System.out.println("\nAll tests passed!");
+    } else {
+      System.err.println("\nOne or more tests failed.");
       System.exit(1);
     }
   }
