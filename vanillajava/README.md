@@ -34,10 +34,10 @@
      [browserstack-cli-windows](https://load-api.browserstack.com/api/v1/binary?os=win&arch=x64)
 
    - **Linux x86**  
-     [browserstack-cli-linux-x86](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=arm64)
+     [browserstack-cli-linux-x86](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=x64)
 
    - **Linux ARM**  
-     [browserstack-cli-linux-arm](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=x64)
+     [browserstack-cli-linux-arm](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=arm64)
 
    > Place the downloaded `browserstack-cli` binary in the root of your project.
 
