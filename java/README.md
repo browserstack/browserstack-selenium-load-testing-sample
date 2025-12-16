@@ -11,7 +11,7 @@
    ```sh
    git clone https://github.com/browserstack/browserstack-selenium-load-testing-sample.git
    cd browserstack-selenium-load-testing-sample
-   cd vanillajava
+   cd java
    ```
 
 2. **Install Maven dependencies**
