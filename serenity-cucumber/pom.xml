@@ -99,6 +99,10 @@
                         <include>**/RunCucumberTest.java</include>
                     </includes>
                     <useModulePath>false</useModulePath>
+                    <!-- Fail the build if zero scenarios execute (e.g., when every Cucumber scenario
+                         is tagged @ignore). Without this, Maven exits 0 with no work done and the
+                         load test reports a false success. -->
+                    <failIfNoTests>true</failIfNoTests>
                 </configuration>
             </plugin>
         </plugins>
