@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.time.Duration;
@@ -85,10 +86,14 @@ public class StepDefs {
 
     @Then("the same product should appear in my cart")
     public void theSameProductShouldAppearInMyCart() {
-        WebElement productInCartElem = driver.findElement(By.cssSelector(
+        By cartProductTitle = By.cssSelector(
                 "#__next > div > div > div.float-cart.float-cart--open > div.float-cart__content > div.float-cart__shelf-container > div > div.shelf-item__details > p.title"
-        ));
-        assertEquals(addedProductName, productInCartElem.getText());
+        );
+        // The cart panel slides in async after the buy click; wait for its text to populate
+        // before asserting, otherwise getText() can return an empty string.
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> !d.findElement(cartProductTitle).getText().isEmpty());
+        assertEquals(addedProductName, driver.findElement(cartProductTitle).getText());
     }
 
     @And("I close the cart panel")
