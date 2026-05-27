@@ -8,14 +8,16 @@ const HUB_URL = "http://localhost:4444/wd/hub";
 describe("BStackDemo test add to cart", () => {
   let driver;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     driver = await new Builder()
       .usingServer(HUB_URL)
       .forBrowser("chrome")
       .build();
+    await driver.manage().setTimeouts({ implicit: 10000 });
+    await driver.manage().window().maximize();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     if (driver) await driver.quit();
   });
 

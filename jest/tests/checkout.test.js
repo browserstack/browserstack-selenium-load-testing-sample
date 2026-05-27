@@ -5,14 +5,16 @@ const HUB_URL = "http://localhost:4444/wd/hub";
 describe("BStackDemo test checkout flow", () => {
   let driver;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     driver = await new Builder()
       .usingServer(HUB_URL)
       .forBrowser("chrome")
       .build();
+    await driver.manage().setTimeouts({ implicit: 10000 });
+    await driver.manage().window().maximize();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     if (driver) await driver.quit();
   });
 
@@ -45,11 +47,9 @@ describe("BStackDemo test checkout flow", () => {
 
     // checkout
     await driver.findElement(By.id("checkout-shipping-continue")).click();
-    await driver
-      .findElement(By.xpath("//*[contains(text(),'Continue')]"))
-      .click();
-    await driver
-      .findElement(By.xpath("//*[contains(text(),'Orders')]"))
-      .click();
+    const checkoutMessage = await driver
+      .findElement(By.id("confirmation-message"))
+      .getText();
+    expect(checkoutMessage).toBe("Your Order has been successfully placed.");
   });
 });
