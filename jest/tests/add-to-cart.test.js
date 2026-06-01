@@ -1,4 +1,4 @@
-const { Builder, By } = require("selenium-webdriver");
+const { Builder, By, until } = require("selenium-webdriver");
 
 // On BrowserStack Load Testing, the Selenium pod exposes a hub at
 // http://localhost:4444/wd/hub. A plain `forBrowser("chrome").build()`
@@ -8,16 +8,14 @@ const HUB_URL = "http://localhost:4444/wd/hub";
 describe("BStackDemo test add to cart", () => {
   let driver;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     driver = await new Builder()
       .usingServer(HUB_URL)
       .forBrowser("chrome")
       .build();
-    await driver.manage().setTimeouts({ implicit: 10000 });
-    await driver.manage().window().maximize();
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     if (driver) await driver.quit();
   });
 
@@ -26,21 +24,30 @@ describe("BStackDemo test add to cart", () => {
     await driver.get("https://bstackdemo.com/");
 
     // get name of product we want to add to cart
-    const productElement = await driver.findElement(By.css("#\\33  > p"));
-    const productToAdd = await productElement.getText();
+    const productNameElem = await driver.wait(
+      until.elementLocated(By.xpath("//*[@id='3']/p")),
+      10000,
+    );
+    await driver.wait(until.elementIsVisible(productNameElem), 10000);
+    const productToAdd = (await productNameElem.getText()).trim();
 
     // click on add to cart
-    await driver.findElement(By.css("#\\33  > .shelf-item__buy-btn")).click();
+    const addToCartBtn = await driver.findElement(
+      By.css("#\\33  > .shelf-item__buy-btn"),
+    );
+    await addToCartBtn.click();
 
     // get name of item in cart
-    const cartItemElement = await driver.findElement(
-      By.css(
-        "#__next > div > div > div.float-cart.float-cart--open > " +
-          "div.float-cart__content > div.float-cart__shelf-container > " +
-          "div > div.shelf-item__details > p.title",
+    const productInCartElem = await driver.wait(
+      until.elementLocated(
+        By.css(
+          ".float-cart.float-cart--open .float-cart__shelf-container .shelf-item__details p.title",
+        ),
       ),
+      10000,
     );
-    const productInCart = await cartItemElement.getText();
+    await driver.wait(until.elementIsVisible(productInCartElem), 10000);
+    const productInCart = (await productInCartElem.getText()).trim();
 
     // check if product in cart is same as one added
     expect(productInCart).toBe(productToAdd);
