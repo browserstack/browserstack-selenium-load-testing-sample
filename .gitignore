@@ -2,3 +2,7 @@
 **/log
 **/browserstack-cli
 **/.DS_Store
+**/node_modules/
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
