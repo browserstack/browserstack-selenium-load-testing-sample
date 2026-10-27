@@ -42,7 +42,6 @@ public class StepDefs {
                 "--disable-renderer-backgrounding",
                 "--disable-features=TranslateUI",
                 "--disable-ipc-flooding-protection",
-                "--disable-web-security",
                 "--disable-features=VizDisplayCompositor",
                 "--disable-logging",
                 "--silent"
@@ -78,6 +77,9 @@ public class StepDefs {
 
     @When("I add the product at index {string} to my cart")
     public void iAddTheProductAtIndexToMyCart(String index) {
+        if (!index.matches("\\d")) {
+            throw new IllegalArgumentException("Product index must be a single digit, got: " + index);
+        }
         WebElement productNameElem = driver.findElement(By.cssSelector("#\\3" + index + " > p"));
         addedProductName = productNameElem.getText();
         WebElement addToCartBtn = driver.findElement(By.cssSelector("#\\3" + index + " > .shelf-item__buy-btn"));
