@@ -46,7 +46,6 @@ public class SimpleTest {
                 "--disable-renderer-backgrounding",
                 "--disable-features=TranslateUI",
                 "--disable-ipc-flooding-protection",
-                "--disable-web-security",
                 "--disable-features=VizDisplayCompositor",
                 "--disable-logging",
                 "--silent"
