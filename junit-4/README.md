@@ -39,7 +39,7 @@
    - **Linux ARM**  
      [browserstack-cli-linux-arm](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=arm64)
 
-   > The download is a zip. Extract it and place the `browserstack-cli` binary in the root of your project.
+   > The download is a zip. Extract it and place the `browserstack-cli` binary (`browserstack-cli.exe` on Windows) in the root of your project.
 
 4. **Verify the BrowserStack CLI**
 
@@ -63,17 +63,17 @@
 
    The BrowserStack CLI reads your credentials from environment variables. Copy your username and access key from [Account Settings](https://www.browserstack.com/accounts/settings) and export them in the shell you run the test from:
 
+   On macOS or Linux (bash or zsh), run the lines below. The second one prompts for the key without echoing it, so the key stays out of your shell history:
+
    ```sh
-   # macOS / Linux (bash or zsh)
    export BROWSERSTACK_USERNAME="<your-username>"
-   # Type the key at the prompt: it is not echoed, and it stays out of your shell history
    printf 'BrowserStack access key: '; read -rs BROWSERSTACK_ACCESS_KEY; echo; export BROWSERSTACK_ACCESS_KEY
    ```
 
+   On Windows, run these in PowerShell. The second line prompts for the key in the same way:
+
    ```powershell
-   # Windows (PowerShell)
    $env:BROWSERSTACK_USERNAME = "<your-username>"
-   # Type the key at the prompt: it is not echoed, and it stays out of your PowerShell history
    $env:BROWSERSTACK_ACCESS_KEY = [System.Net.NetworkCredential]::new('', (Read-Host -AsSecureString 'BrowserStack access key')).Password
    ```
 
@@ -84,7 +84,6 @@
 6. **Run tests using BrowserStack CLI**
 
    ```sh
-   # macOS / Linux
    ./browserstack-cli load run
    ```
 
