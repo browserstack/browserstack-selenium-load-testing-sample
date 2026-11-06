@@ -1,6 +1,7 @@
 **/target/
 **/log
 **/browserstack-cli
+**/browserstack-cli.exe
 **/.DS_Store
 **/node_modules/
 **/yarn.lock

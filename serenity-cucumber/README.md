@@ -67,8 +67,7 @@
    # macOS / Linux (bash or zsh)
    export BROWSERSTACK_USERNAME="<your-username>"
    # Type the key at the prompt: it is not echoed, and it stays out of your shell history
-   printf 'BrowserStack access key: '; read -rs BROWSERSTACK_ACCESS_KEY; echo
-   export BROWSERSTACK_ACCESS_KEY
+   printf 'BrowserStack access key: '; read -rs BROWSERSTACK_ACCESS_KEY; echo; export BROWSERSTACK_ACCESS_KEY
    ```
 
    ```powershell
