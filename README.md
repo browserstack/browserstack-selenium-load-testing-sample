@@ -65,13 +65,31 @@
 
    If the check fails, do not run the binary.
 
-6. **Run tests using BrowserStack CLI**
+6. **Set your credentials**
+
+   The BrowserStack CLI reads your credentials from environment variables. Copy your username and access key from [Account Settings](https://www.browserstack.com/accounts/settings) and export them in the shell you run the test from:
+
+   ```sh
+   # macOS / Linux
+   export BROWSERSTACK_USERNAME="<your-username>"
+   export BROWSERSTACK_ACCESS_KEY="<your-access-key>"
+   ```
+
+   ```powershell
+   # Windows (PowerShell)
+   $env:BROWSERSTACK_USERNAME = "<your-username>"
+   $env:BROWSERSTACK_ACCESS_KEY = "<your-access-key>"
+   ```
+
+   **Never commit your credentials.** Leave the `userName` and `accessKey` placeholders in `browserstack-load.yml` as they are (the environment variables override them), and keep your access key out of every file you push. If a key is ever exposed, regenerate it from Account Settings.
+
+7. **Run tests using BrowserStack CLI**
 
    ```sh
    ./browserstack-cli load run
    ```
 
-7. **View Test Results**
+8. **View Test Results**
 
    Visit the [BrowserStack Load-Testing Dashboard](https://load.browserstack.com/projects) to monitor and analyze your test runs.
 
